@@ -2756,21 +2756,15 @@ services:
     - ./certificates:/usr/local/share/ca-certificates:ro
 volumes:
   sentry-clickhouse:
-    external: true
   sentry-clickhouse-log:
   sentry-data:
-    external: true
   sentry-kafka:
-    external: true
   sentry-kafka-log:
   sentry-nginx-cache:
   sentry-nginx-www:
   sentry-postgres:
-    external: true
   sentry-redis:
-    external: true
   sentry-seaweedfs:
-    external: true
   sentry-secrets:
   sentry-smtp:
   sentry-smtp-log:
