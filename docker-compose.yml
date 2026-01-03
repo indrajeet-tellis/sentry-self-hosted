@@ -573,7 +573,7 @@ services:
     healthcheck:
       interval: 10s
       retries: 30
-      start_period: 300s
+      start_period: 600s
       test:
       - CMD-SHELL
       - nc -z localhost 9092
@@ -582,8 +582,8 @@ services:
     restart: unless-stopped
     ulimits:
       nofile:
-        hard: 4096
-        soft: 4096
+        hard: 65536
+        soft: 65536
     volumes:
     - sentry-kafka:/var/lib/kafka/data
     - sentry-kafka-log:/var/lib/kafka/log
@@ -594,8 +594,8 @@ services:
     - ${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-1M}
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test: echo stats | nc 127.0.0.1 11211
       timeout: 1m30s
     image: memcached:1.6.26-alpine
@@ -784,8 +784,8 @@ services:
         restart: true
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD
       - /usr/bin/curl
@@ -816,8 +816,8 @@ services:
       POOL_MODE: transaction
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD-SHELL
       - psql -U postgres -p 5432 -h 127.0.0.1 -tA -c "select 1;" -d postgres >/dev/null
@@ -1006,8 +1006,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD-SHELL
       - pg_isready -U ${POSTGRES_USER:-postgres}
@@ -1139,8 +1139,8 @@ services:
     - /usr/local/etc/redis/redis.conf
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test: redis-cli ping | grep PONG
       timeout: 1m30s
     image: redis:6.2.20-alpine
@@ -1167,8 +1167,8 @@ services:
       RELAY_STATSD_ADDR: ${STATSD_ADDR:-127.0.0.1:8125}
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD
       - /bin/relay
@@ -1282,8 +1282,8 @@ services:
       UWSGI_MAX_REQUESTS: '10000'
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD
       - /bin/bash
@@ -2368,8 +2368,8 @@ services:
       SYMBOLICATOR_STATSD_ADDR: ${STATSD_ADDR:-127.0.0.1:8125}
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD
       - /bin/symbolicator
@@ -2658,8 +2658,8 @@ services:
       SENTRY_SNUBA_HOST: http://snuba-api:1218
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD
       - /bin/bash
@@ -2732,8 +2732,8 @@ services:
       VROOM: http://vroom:8085
     healthcheck:
       interval: 60s
-      retries: 20
-      start_period: 300s
+      retries: 30
+      start_period: 600s
       test:
       - CMD
       - /bin/bash
@@ -2747,8 +2747,8 @@ services:
     restart: unless-stopped
     ulimits:
       nofile:
-        hard: 4096
-        soft: 4096
+        hard: 65536
+        soft: 65536
     volumes:
     - sentry-data:/data
     - ./sentry:/etc/sentry
@@ -2785,8 +2785,8 @@ x-file-healthcheck:
   timeout: 10s
 x-healthcheck-defaults:
   interval: 60s
-  retries: 20
-  start_period: 300s
+  retries: 30
+  start_period: 600s
   timeout: 1m30s
 x-pull-policy:
   pull_policy: never
