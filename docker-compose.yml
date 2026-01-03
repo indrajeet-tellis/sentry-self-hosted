@@ -792,8 +792,6 @@ services:
       - http://localhost
       timeout: 1m30s
     image: nginx:1.29.1-alpine
-    ports:
-    # - 9000:80/tcp
     expose:
     - "80"
     restart: unless-stopped
