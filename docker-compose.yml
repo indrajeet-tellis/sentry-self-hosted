@@ -4,8 +4,7 @@ services:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-attachments --consumer-group ingest-consumer --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer ingest-attachments --consumer-group ingest-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -43,25 +42,24 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   billing-metrics-consumer:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer billing-metrics-consumer --consumer-group billing-metrics-consumer
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer billing-metrics-consumer --consumer-group billing-metrics-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -99,20 +97,20 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   clickhouse:
     build:
       args:
@@ -124,9 +122,8 @@ services:
       interval: 10s
       retries: 30
       test:
-      - CMD-SHELL
-      - HTTP_PROXY='' http_proxy='' wget -nv -t1 --spider 'http://localhost:8123/'
-        || exit 1
+        - CMD-SHELL
+        - HTTP_PROXY='' http_proxy='' wget -nv -t1 --spider 'http://localhost:8123/' || exit 1
       timeout: 10s
     image: clickhouse-self-hosted-local
     pull_policy: never
@@ -136,23 +133,22 @@ services:
         hard: 262144
         soft: 262144
     volumes:
-    - sentry-clickhouse:/var/lib/clickhouse
-    - sentry-clickhouse-log:/var/log/clickhouse-server
-    - read_only: true
-      source: ./clickhouse/config.xml
-      target: /etc/clickhouse-server/config.d/sentry.xml
-      type: bind
-    - read_only: true
-      source: ./clickhouse/default-password.xml
-      target: /etc/clickhouse-server/users.d/default-password.xml
-      type: bind
+      - sentry-clickhouse:/var/lib/clickhouse
+      - sentry-clickhouse-log:/var/log/clickhouse-server
+      - read_only: true
+        source: ./clickhouse/config.xml
+        target: /etc/clickhouse-server/config.d/sentry.xml
+        type: bind
+      - read_only: true
+        source: ./clickhouse/default-password.xml
+        target: /etc/clickhouse-server/users.d/default-password.xml
+        type: bind
   events-consumer:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-events --consumer-group ingest-consumer --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer ingest-events --consumer-group ingest-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -190,25 +186,24 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   generic-metrics-consumer:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-generic-metrics --consumer-group generic-metrics-consumer
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer ingest-generic-metrics --consumer-group generic-metrics-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -246,27 +241,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   ingest-feedback-events:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-feedback-events --consumer-group ingest-feedback
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer ingest-feedback-events --consumer-group ingest-feedback --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -304,27 +298,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   ingest-monitors:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-monitors --consumer-group ingest-monitors --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer ingest-monitors --consumer-group ingest-monitors --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -362,27 +355,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   ingest-occurrences:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-occurrences --consumer-group ingest-occurrences --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer ingest-occurrences --consumer-group ingest-occurrences --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -420,27 +412,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   ingest-profiles:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-profiles --consumer-group ingest-profiles --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer ingest-profiles --consumer-group ingest-profiles --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -478,27 +469,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   ingest-replay-recordings:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-replay-recordings --consumer-group ingest-replay-recordings
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer ingest-replay-recordings --consumer-group ingest-replay-recordings --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -536,20 +526,20 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   kafka:
     environment:
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
@@ -575,8 +565,8 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD-SHELL
-      - nc -z localhost 9092
+        - CMD-SHELL
+        - nc -z localhost 9092
       timeout: 10s
     image: confluentinc/cp-kafka:7.6.6
     restart: unless-stopped
@@ -585,13 +575,13 @@ services:
         hard: 65536
         soft: 65536
     volumes:
-    - sentry-kafka:/var/lib/kafka/data
-    - sentry-kafka-log:/var/lib/kafka/log
-    - sentry-secrets:/etc/kafka/secrets
+      - sentry-kafka:/var/lib/kafka/data
+      - sentry-kafka-log:/var/lib/kafka/log
+      - sentry-secrets:/etc/kafka/secrets
   memcached:
     command:
-    - -I
-    - ${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-1M}
+      - -I
+      - ${SENTRY_MAX_EXTERNAL_SOURCEMAP_SIZE:-1M}
     healthcheck:
       interval: 60s
       retries: 30
@@ -605,8 +595,7 @@ services:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-metrics --consumer-group metrics-consumer --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer ingest-metrics --consumer-group metrics-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -644,27 +633,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   monitors-clock-tasks:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer monitors-clock-tasks --consumer-group monitors-clock-tasks
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer monitors-clock-tasks --consumer-group monitors-clock-tasks --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -702,27 +690,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   monitors-clock-tick:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer monitors-clock-tick --consumer-group monitors-clock-tick
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer monitors-clock-tick --consumer-group monitors-clock-tick --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -760,20 +747,20 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   nginx:
     depends_on:
       relay:
@@ -787,24 +774,24 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD
-      - /usr/bin/curl
-      - http://localhost
+        - CMD
+        - /usr/bin/curl
+        - http://localhost
       timeout: 1m30s
     image: nginx:1.29.1-alpine
     expose:
+      - "80"
     networks:
       - default
       - dokploy-network
-    - "80"
     restart: unless-stopped
     volumes:
-    - read_only: true
-      source: ./nginx.conf
-      target: /etc/nginx/nginx.conf
-      type: bind
-    - sentry-nginx-cache:/var/cache/nginx
-    - sentry-nginx-www:/var/www
+      - read_only: true
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+        type: bind
+      - sentry-nginx-cache:/var/cache/nginx
+      - sentry-nginx-www:/var/www
   pgbouncer:
     depends_on:
       postgres:
@@ -822,8 +809,8 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD-SHELL
-      - psql -U postgres -p 5432 -h 127.0.0.1 -tA -c "select 1;" -d postgres >/dev/null
+        - CMD-SHELL
+        - psql -U postgres -p 5432 -h 127.0.0.1 -tA -c "select 1;" -d postgres >/dev/null
       timeout: 1m30s
     image: edoburu/pgbouncer:v1.24.1-p1
     restart: unless-stopped
@@ -832,9 +819,7 @@ services:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer --no-strict-offset-reset post-process-forwarder-errors --consumer-group
-      post-process-forwarder --synchronize-commit-log-topic=snuba-commit-log --synchronize-commit-group=snuba-consumers
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer --no-strict-offset-reset post-process-forwarder-errors --consumer-group post-process-forwarder --synchronize-commit-log-topic=snuba-commit-log --synchronize-commit-group=snuba-consumers --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -872,26 +857,24 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   post-process-forwarder-issue-platform:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer --no-strict-offset-reset post-process-forwarder-issue-platform
-      --consumer-group post-process-forwarder --synchronize-commit-log-topic=snuba-generic-events-commit-log
-      --synchronize-commit-group generic_events_group --healthcheck-file-path /tmp/health.txt
+    command: run consumer --no-strict-offset-reset post-process-forwarder-issue-platform --consumer-group post-process-forwarder --synchronize-commit-log-topic=snuba-generic-events-commit-log --synchronize-commit-group generic_events_group --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -929,28 +912,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   post-process-forwarder-transactions:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer --no-strict-offset-reset post-process-forwarder-transactions
-      --consumer-group post-process-forwarder --synchronize-commit-log-topic=snuba-transactions-commit-log
-      --synchronize-commit-group transactions_group --healthcheck-file-path /tmp/health.txt
+    command: run consumer --no-strict-offset-reset post-process-forwarder-transactions --consumer-group post-process-forwarder --synchronize-commit-log-topic=snuba-transactions-commit-log --synchronize-commit-group transactions_group --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -988,23 +969,23 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   postgres:
     command:
-    - postgres
+      - postgres
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     healthcheck:
@@ -1012,21 +993,20 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD-SHELL
-      - pg_isready -U ${POSTGRES_USER:-postgres}
+        - CMD-SHELL
+        - pg_isready -U ${POSTGRES_USER:-postgres}
       timeout: 1m30s
     image: postgres:14.19-bookworm
     restart: unless-stopped
     shm_size: 256m
     volumes:
-    - sentry-postgres:/var/lib/postgresql/data
+      - sentry-postgres:/var/lib/postgresql/data
   process-segments:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer --no-strict-offset-reset process-segments --consumer-group
-      process-segments --healthcheck-file-path /tmp/health.txt
+    command: run consumer --no-strict-offset-reset process-segments --consumer-group process-segments --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -1064,27 +1044,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   process-spans:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer --no-strict-offset-reset process-spans --consumer-group
-      process-spans --healthcheck-file-path /tmp/health.txt
+    command: run consumer --no-strict-offset-reset process-spans --consumer-group process-spans --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -1122,24 +1101,24 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   redis:
     command:
-    - redis-server
-    - /usr/local/etc/redis/redis.conf
+      - redis-server
+      - /usr/local/etc/redis/redis.conf
     healthcheck:
       interval: 60s
       retries: 30
@@ -1153,11 +1132,11 @@ services:
         hard: 10032
         soft: 10032
     volumes:
-    - sentry-redis:/data
-    - read_only: true
-      source: ./redis.conf
-      target: /usr/local/etc/redis/redis.conf
-      type: bind
+      - sentry-redis:/data
+      - read_only: true
+        source: ./redis.conf
+        target: /usr/local/etc/redis/redis.conf
+        type: bind
   relay:
     depends_on:
       kafka:
@@ -1173,27 +1152,23 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD
-      - /bin/relay
-      - healthcheck
+        - CMD
+        - /bin/relay
+        - healthcheck
       timeout: 1m30s
     image: ghcr.io/getsentry/relay:nightly
     restart: unless-stopped
     volumes:
-    - read_only: true
-      source: ./relay
-      target: /work/.relay
-      type: bind
-    - read_only: true
-      source: ./geoip
-      target: /geoip
-      type: bind
+      - read_only: true
+        source: ./relay
+        target: /work/.relay
+        type: bind
+      - read_only: true
+        source: ./geoip
+        target: /geoip
+        type: bind
   seaweedfs:
-    command: server -dir=/data -filer=true -filer.port=8888 -filer.port.grpc=18888
-      -filer.defaultReplicaPlacement=000 -master=true -master.port=9333 -master.port.grpc=19333
-      -metricsPort=9091 -s3=true -s3.port=8333 -s3.port.grpc=18333 -volume=true -volume.dir.idx=/data/idx
-      -volume.index=leveldbLarge -volume.max=0 -volume.preStopSeconds=8 -volume.readMode=redirect
-      -volume.port=8080 -volume.port.grpc=18080 -ip=127.0.0.1 -ip.bind=0.0.0.0 -webdav=false
+    command: server -dir=/data -filer=true -filer.port=8888 -filer.port.grpc=18888 -filer.defaultReplicaPlacement=000 -master=true -master.port=9333 -master.port.grpc=19333 -metricsPort=9091 -s3=true -s3.port=8333 -s3.port.grpc=18333 -volume=true -volume.dir.idx=/data/idx -volume.index=leveldbLarge -volume.max=0 -volume.preStopSeconds=8 -volume.readMode=redirect -volume.port=8080 -volume.port.grpc=18080 -ip=127.0.0.1 -ip.bind=0.0.0.0 -webdav=false
     entrypoint: weed
     environment:
       AWS_ACCESS_KEY_ID: sentry
@@ -1203,14 +1178,13 @@ services:
       retries: 5
       start_period: 60s
       test:
-      - CMD-SHELL
-      - http_proxy='' wget -q -O- http://seaweedfs:8080/healthz http://seaweedfs:9333/cluster/healthz
-        http://seaweedfs:8333/healthz || exit 1
+        - CMD-SHELL
+        - http_proxy='' wget -q -O- http://seaweedfs:8080/healthz http://seaweedfs:9333/cluster/healthz http://seaweedfs:8333/healthz || exit 1
       timeout: 20s
     image: chrislusf/seaweedfs:3.97_large_disk
     restart: unless-stopped
     volumes:
-    - sentry-seaweedfs:/data
+      - sentry-seaweedfs:/data
   sentry-cleanup:
     build:
       args:
@@ -1254,18 +1228,18 @@ services:
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   smtp:
     environment:
-    - MAILNAME=${SENTRY_MAIL_HOST:-}
+      - MAILNAME=${SENTRY_MAIL_HOST:-}
     image: registry.gitlab.com/egos-tech/smtp
     restart: unless-stopped
     volumes:
-    - sentry-smtp:/var/spool/exim4
-    - sentry-smtp-log:/var/log/exim4
+      - sentry-smtp:/var/spool/exim4
+      - sentry-smtp-log:/var/log/exim4
   snuba-api:
     depends_on:
       clickhouse:
@@ -1288,18 +1262,15 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD
-      - /bin/bash
-      - -c
-      - 'exec 3<>/dev/tcp/127.0.0.1/1218 && echo -e "GET /health HTTP/1.1\r\nhost:
-        127.0.0.1\r\n\r\n" >&3 && grep ok -s -m 1 <&3'
+        - CMD
+        - /bin/bash
+        - -c
+        - 'exec 3<>/dev/tcp/127.0.0.1/1218 && echo -e "GET /health HTTP/1.1\r\nhost: 127.0.0.1\r\n\r\n" >&3 && grep ok -s -m 1 <&3'
       timeout: 1m30s
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-eap-items-consumer:
-    command: rust-consumer --storage eap_items --consumer-group eap_items_group --auto-offset-reset=latest
-      --max-batch-time-ms 1000 --no-strict-offset-reset --use-rust-processor --health-check-file
-      /tmp/health.txt
+    command: rust-consumer --storage eap_items --consumer-group eap_items_group --auto-offset-reset=latest --max-batch-time-ms 1000 --no-strict-offset-reset --use-rust-processor --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1321,16 +1292,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-errors-consumer:
-    command: rust-consumer --storage errors --consumer-group snuba-consumers --auto-offset-reset=latest
-      --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
+    command: rust-consumer --storage errors --consumer-group snuba-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1352,15 +1322,13 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-generic-metrics-counters-consumer:
-    command: rust-consumer --storage generic_metrics_counters_raw --consumer-group
-      snuba-gen-metrics-counters-consumers --auto-offset-reset=latest --max-batch-time-ms
-      750 --no-strict-offset-reset --health-check-file /tmp/health.txt
+    command: rust-consumer --storage generic_metrics_counters_raw --consumer-group snuba-gen-metrics-counters-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1382,17 +1350,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-generic-metrics-distributions-consumer:
-    command: rust-consumer --storage generic_metrics_distributions_raw --consumer-group
-      snuba-gen-metrics-distributions-consumers --auto-offset-reset=latest --max-batch-time-ms
-      750 --no-strict-offset-reset --health-check-file /tmp/health.txt
+    command: rust-consumer --storage generic_metrics_distributions_raw --consumer-group snuba-gen-metrics-distributions-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1414,17 +1380,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-generic-metrics-gauges-consumer:
-    command: rust-consumer --storage generic_metrics_gauges_raw --consumer-group snuba-gen-metrics-gauges-consumers
-      --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage generic_metrics_gauges_raw --consumer-group snuba-gen-metrics-gauges-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1446,17 +1410,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-generic-metrics-sets-consumer:
-    command: rust-consumer --storage generic_metrics_sets_raw --consumer-group snuba-gen-metrics-sets-consumers
-      --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage generic_metrics_sets_raw --consumer-group snuba-gen-metrics-sets-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1478,17 +1440,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-group-attributes-consumer:
-    command: rust-consumer --storage group_attributes --consumer-group snuba-group-attributes-consumers
-      --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage group_attributes --consumer-group snuba-group-attributes-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1510,15 +1470,13 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-issue-occurrence-consumer:
-    command: rust-consumer --storage search_issues --consumer-group generic_events_group
-      --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage search_issues --consumer-group generic_events_group --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1540,17 +1498,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-metrics-consumer:
-    command: rust-consumer --storage metrics_raw --consumer-group snuba-metrics-consumers
-      --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage metrics_raw --consumer-group snuba-metrics-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1572,17 +1528,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-outcomes-billing-consumer:
-    command: rust-consumer --storage outcomes_raw --consumer-group snuba-consumers
-      --auto-offset-reset=earliest --max-batch-time-ms 750 --no-strict-offset-reset
-      --raw-events-topic outcomes-billing --health-check-file /tmp/health.txt
+    command: rust-consumer --storage outcomes_raw --consumer-group snuba-consumers --auto-offset-reset=earliest --max-batch-time-ms 750 --no-strict-offset-reset --raw-events-topic outcomes-billing --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1604,15 +1558,13 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-outcomes-consumer:
-    command: rust-consumer --storage outcomes_raw --consumer-group snuba-consumers
-      --auto-offset-reset=earliest --max-batch-time-ms 750 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage outcomes_raw --consumer-group snuba-consumers --auto-offset-reset=earliest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1634,15 +1586,13 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-profiling-functions-consumer:
-    command: rust-consumer --storage functions_raw --consumer-group snuba-consumers
-      --auto-offset-reset=latest --max-batch-time-ms 1000 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage functions_raw --consumer-group snuba-consumers --auto-offset-reset=latest --max-batch-time-ms 1000 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1664,17 +1614,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-profiling-profile-chunks-consumer:
-    command: rust-consumer --storage profile_chunks --consumer-group snuba-consumers
-      --auto-offset-reset=latest --max-batch-time-ms 1000 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage profile_chunks --consumer-group snuba-consumers --auto-offset-reset=latest --max-batch-time-ms 1000 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1696,16 +1644,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-profiling-profiles-consumer:
-    command: rust-consumer --storage profiles --consumer-group snuba-consumers --auto-offset-reset=latest
-      --max-batch-time-ms 1000 --no-strict-offset-reset --health-check-file /tmp/health.txt
+    command: rust-consumer --storage profiles --consumer-group snuba-consumers --auto-offset-reset=latest --max-batch-time-ms 1000 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1727,12 +1674,12 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-replacer:
     command: replacer --storage errors --auto-offset-reset=latest --no-strict-offset-reset
@@ -1755,8 +1702,7 @@ services:
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-replays-consumer:
-    command: rust-consumer --storage replays --consumer-group snuba-consumers --auto-offset-reset=latest
-      --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
+    command: rust-consumer --storage replays --consumer-group snuba-consumers --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1778,18 +1724,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-subscription-consumer-eap-items:
-    command: subscriptions-scheduler-executor --dataset events_analytics_platform
-      --entity eap_items --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-eap-items-subscriptions-consumers
-      --followed-consumer-group=eap_items_group --schedule-ttl=60 --stale-threshold-seconds=900
-      --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset events_analytics_platform --entity eap_items --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-eap-items-subscriptions-consumers --followed-consumer-group=eap_items_group --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1811,16 +1754,13 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-subscription-consumer-events:
-    command: subscriptions-scheduler-executor --dataset events --entity events --auto-offset-reset=latest
-      --no-strict-offset-reset --consumer-group=snuba-events-subscriptions-consumers
-      --followed-consumer-group=snuba-consumers --schedule-ttl=60 --stale-threshold-seconds=900
-      --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset events --entity events --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-events-subscriptions-consumers --followed-consumer-group=snuba-consumers --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1842,16 +1782,13 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     restart: unless-stopped
   snuba-subscription-consumer-generic-metrics-counters:
-    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_counters
-      --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-generic-metrics-counters-subscriptions-schedulers
-      --followed-consumer-group=snuba-gen-metrics-counters-consumers --schedule-ttl=60
-      --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_counters --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-generic-metrics-counters-subscriptions-schedulers --followed-consumer-group=snuba-gen-metrics-counters-consumers --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1873,18 +1810,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-subscription-consumer-generic-metrics-distributions:
-    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_distributions   --auto-offset-reset=latest
-      --no-strict-offset-reset --consumer-group=snuba-generic-metrics-distributions-subscriptions-schedulers
-      --followed-consumer-group=snuba-gen-metrics-distributions-consumers --schedule-ttl=60
-      --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_distributions   --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-generic-metrics-distributions-subscriptions-schedulers --followed-consumer-group=snuba-gen-metrics-distributions-consumers --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1906,18 +1840,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-subscription-consumer-generic-metrics-gauges:
-    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_gauges
-      --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-generic-metrics-gauges-subscriptions-schedulers
-      --followed-consumer-group=snuba-gen-metrics-gauges-consumers --schedule-ttl=60
-      --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_gauges --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-generic-metrics-gauges-subscriptions-schedulers --followed-consumer-group=snuba-gen-metrics-gauges-consumers --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1939,18 +1870,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-subscription-consumer-generic-metrics-sets:
-    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_sets
-      --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-generic-metrics-sets-subscriptions-schedulers
-      --followed-consumer-group=snuba-gen-metrics-sets-consumers --schedule-ttl=60
-      --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset generic_metrics --entity=generic_metrics_sets --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-generic-metrics-sets-subscriptions-schedulers --followed-consumer-group=snuba-gen-metrics-sets-consumers --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -1972,18 +1900,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-subscription-consumer-metrics:
-    command: subscriptions-scheduler-executor --dataset metrics --entity metrics_sets
-      --entity metrics_counters --auto-offset-reset=latest --no-strict-offset-reset
-      --consumer-group=snuba-metrics-subscriptions-consumers --followed-consumer-group=snuba-metrics-consumers
-      --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset metrics --entity metrics_sets --entity metrics_counters --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-metrics-subscriptions-consumers --followed-consumer-group=snuba-metrics-consumers --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -2005,18 +1930,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-subscription-consumer-transactions:
-    command: subscriptions-scheduler-executor --dataset transactions --entity transactions
-      --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-transactions-subscriptions-consumers
-      --followed-consumer-group=transactions_group --schedule-ttl=60 --stale-threshold-seconds=900
-      --health-check-file /tmp/health.txt
+    command: subscriptions-scheduler-executor --dataset transactions --entity transactions --auto-offset-reset=latest --no-strict-offset-reset --consumer-group=snuba-transactions-subscriptions-consumers --followed-consumer-group=transactions_group --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -2038,17 +1960,15 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   snuba-transactions-consumer:
-    command: rust-consumer --storage transactions --consumer-group transactions_group
-      --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset
-      --health-check-file /tmp/health.txt
+    command: rust-consumer --storage transactions --consumer-group transactions_group --auto-offset-reset=latest --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
         condition: service_started
@@ -2070,20 +1990,19 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: ghcr.io/getsentry/snuba:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   subscription-consumer-eap-items:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer subscription-results-eap-items --consumer-group subscription-results-eap-items
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer subscription-results-eap-items --consumer-group subscription-results-eap-items --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -2121,27 +2040,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   subscription-consumer-events:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer events-subscription-results --consumer-group query-subscription-consumer
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer events-subscription-results --consumer-group query-subscription-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -2179,25 +2097,24 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   subscription-consumer-generic-metrics:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer generic-metrics-subscription-results --consumer-group query-subscription-consumer
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer generic-metrics-subscription-results --consumer-group query-subscription-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -2235,27 +2152,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   subscription-consumer-metrics:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer metrics-subscription-results --consumer-group query-subscription-consumer
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer metrics-subscription-results --consumer-group query-subscription-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -2293,27 +2209,26 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   subscription-consumer-transactions:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer transactions-subscription-results --consumer-group query-subscription-consumer
-      --healthcheck-file-path /tmp/health.txt
+    command: run consumer transactions-subscription-results --consumer-group query-subscription-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -2351,20 +2266,20 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   symbolicator:
     command: run -c /etc/symbolicator/config.yml
     environment:
@@ -2374,20 +2289,20 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD
-      - /bin/symbolicator
-      - healthcheck
-      - -c
-      - /etc/symbolicator/config.yml
+        - CMD
+        - /bin/symbolicator
+        - healthcheck
+        - -c
+        - /etc/symbolicator/config.yml
       timeout: 1m30s
     image: ghcr.io/getsentry/symbolicator:nightly
     restart: unless-stopped
     volumes:
-    - sentry-symbolicator:/data
-    - read_only: true
-      source: ./symbolicator
-      target: /etc/symbolicator
-      type: bind
+      - sentry-symbolicator:/data
+      - read_only: true
+        source: ./symbolicator
+        target: /etc/symbolicator
+        type: bind
   symbolicator-cleanup:
     command: cleanup -c /etc/symbolicator/config.yml --repeat 1h
     environment:
@@ -2395,11 +2310,11 @@ services:
     image: ghcr.io/getsentry/symbolicator:nightly
     restart: unless-stopped
     volumes:
-    - sentry-symbolicator:/data
-    - read_only: true
-      source: ./symbolicator
-      target: /etc/symbolicator
-      type: bind
+      - sentry-symbolicator:/data
+      - read_only: true
+        source: ./symbolicator
+        target: /etc/symbolicator
+        type: bind
   taskbroker:
     depends_on:
       kafka:
@@ -2412,7 +2327,7 @@ services:
     image: ghcr.io/getsentry/taskbroker:nightly
     restart: unless-stopped
     volumes:
-    - sentry-taskbroker:/opt/sqlite
+      - sentry-taskbroker:/opt/sqlite
   taskscheduler:
     build:
       args:
@@ -2456,10 +2371,10 @@ services:
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   taskworker:
     build:
       args:
@@ -2503,25 +2418,24 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   transactions-consumer:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer ingest-transactions --consumer-group ingest-consumer --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer ingest-transactions --consumer-group ingest-consumer --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -2559,20 +2473,20 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   uptime-checker:
     command: run
     depends_on:
@@ -2588,15 +2502,14 @@ services:
       UPTIME_CHECKER_STATSD_ADDR: ${STATSD_ADDR:-127.0.0.1:8125}
     image: ghcr.io/getsentry/uptime-checker:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
   uptime-results:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
-    command: run consumer uptime-results --consumer-group uptime-results --healthcheck-file-path
-      /tmp/health.txt
+    command: run consumer uptime-results --consumer-group uptime-results --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
         condition: service_started
@@ -2634,20 +2547,20 @@ services:
       retries: 3
       start_period: 1200s
       test:
-      - CMD-SHELL
-      - rm /tmp/health.txt
+        - CMD-SHELL
+        - rm /tmp/health.txt
       timeout: 10s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
   vroom:
     depends_on:
       kafka:
@@ -2664,43 +2577,41 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD
-      - /bin/bash
-      - -c
-      - 'exec 3<>/dev/tcp/127.0.0.1/8085 && echo -e "GET /health HTTP/1.1\r\nhost:
-        127.0.0.1\r\n\r\n" >&3 && grep OK -s -m 1 <&3'
+        - CMD
+        - /bin/bash
+        - -c
+        - 'exec 3<>/dev/tcp/127.0.0.1/8085 && echo -e "GET /health HTTP/1.1\r\nhost: 127.0.0.1\r\n\r\n" >&3 && grep OK -s -m 1 <&3'
       timeout: 1m30s
     image: ghcr.io/getsentry/vroom:nightly
     profiles:
-    - feature-complete
+      - feature-complete
     restart: unless-stopped
     volumes:
-    - sentry-vroom:/var/vroom/sentry-profiles
+      - sentry-vroom:/var/vroom/sentry-profiles
   vroom-cleanup:
     build:
       args:
         BASE_IMAGE: ghcr.io/getsentry/vroom:nightly
       context: ./cron
-    command: '"0 0 * * * find /var/vroom/sentry-profiles -type f -mtime +90
-      -delete"'
+    command: '"0 0 * * * find /var/vroom/sentry-profiles -type f -mtime +90 -delete"'
     entrypoint: /entrypoint.sh
     environment:
       SENTRY_EVENT_RETENTION_DAYS:
     image: vroom-cleanup-self-hosted-local
     profiles:
-    - feature-complete
+      - feature-complete
     pull_policy: never
     restart: unless-stopped
     volumes:
-    - sentry-vroom:/var/vroom/sentry-profiles
+      - sentry-vroom:/var/vroom/sentry-profiles
   web:
     build:
       args:
         SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command:
-    - run
-    - web
+      - run
+      - web
     depends_on:
       kafka:
         condition: service_started
@@ -2738,11 +2649,10 @@ services:
       retries: 30
       start_period: 600s
       test:
-      - CMD
-      - /bin/bash
-      - -c
-      - 'exec 3<>/dev/tcp/127.0.0.1/9000 && echo -e "GET /_health/ HTTP/1.1\r\nhost:
-        127.0.0.1\r\n\r\n" >&3 && grep ok -s -m 1 <&3'
+        - CMD
+        - /bin/bash
+        - -c
+        - 'exec 3<>/dev/tcp/127.0.0.1/9000 && echo -e "GET /_health/ HTTP/1.1\r\nhost: 127.0.0.1\r\n\r\n" >&3 && grep ok -s -m 1 <&3'
       timeout: 1m30s
     image: sentry-self-hosted-local
     platform: ${DOCKER_PLATFORM:-}
@@ -2753,10 +2663,10 @@ services:
         hard: 65536
         soft: 65536
     volumes:
-    - sentry-data:/data
-    - ./sentry:/etc/sentry
-    - ./geoip:/geoip:ro
-    - ./certificates:/usr/local/share/ca-certificates:ro
+      - sentry-data:/data
+      - ./sentry:/etc/sentry
+      - ./geoip:/geoip:ro
+      - ./certificates:/usr/local/share/ca-certificates:ro
 volumes:
   sentry-clickhouse:
   sentry-clickhouse-log:
@@ -2783,8 +2693,8 @@ x-file-healthcheck:
   retries: 3
   start_period: 1200s
   test:
-  - CMD-SHELL
-  - rm /tmp/health.txt
+    - CMD-SHELL
+    - rm /tmp/health.txt
   timeout: 10s
 x-healthcheck-defaults:
   interval: 60s
@@ -2798,11 +2708,11 @@ x-restart-policy:
 x-sentry-defaults:
   build:
     args:
-        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
+      SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
     context: ./sentry
   command:
-  - run
-  - web
+    - run
+    - web
   depends_on:
     kafka:
       condition: service_started
@@ -2840,10 +2750,10 @@ x-sentry-defaults:
   pull_policy: never
   restart: unless-stopped
   volumes:
-  - sentry-data:/data
-  - ./sentry:/etc/sentry
-  - ./geoip:/geoip:ro
-  - ./certificates:/usr/local/share/ca-certificates:ro
+    - sentry-data:/data
+    - ./sentry:/etc/sentry
+    - ./geoip:/geoip:ro
+    - ./certificates:/usr/local/share/ca-certificates:ro
 x-snuba-defaults:
   depends_on:
     clickhouse:
