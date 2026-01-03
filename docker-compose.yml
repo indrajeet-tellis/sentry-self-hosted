@@ -2,7 +2,7 @@ services:
   attachments-consumer:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-attachments --consumer-group ingest-consumer --healthcheck-file-path
       /tmp/health.txt
@@ -58,7 +58,7 @@ services:
   billing-metrics-consumer:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer billing-metrics-consumer --consumer-group billing-metrics-consumer
       --healthcheck-file-path /tmp/health.txt
@@ -149,7 +149,7 @@ services:
   events-consumer:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-events --consumer-group ingest-consumer --healthcheck-file-path
       /tmp/health.txt
@@ -205,7 +205,7 @@ services:
   generic-metrics-consumer:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-generic-metrics --consumer-group generic-metrics-consumer
       --healthcheck-file-path /tmp/health.txt
@@ -263,7 +263,7 @@ services:
   ingest-feedback-events:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-feedback-events --consumer-group ingest-feedback
       --healthcheck-file-path /tmp/health.txt
@@ -321,7 +321,7 @@ services:
   ingest-monitors:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-monitors --consumer-group ingest-monitors --healthcheck-file-path
       /tmp/health.txt
@@ -379,7 +379,7 @@ services:
   ingest-occurrences:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-occurrences --consumer-group ingest-occurrences --healthcheck-file-path
       /tmp/health.txt
@@ -437,7 +437,7 @@ services:
   ingest-profiles:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-profiles --consumer-group ingest-profiles --healthcheck-file-path
       /tmp/health.txt
@@ -495,7 +495,7 @@ services:
   ingest-replay-recordings:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-replay-recordings --consumer-group ingest-replay-recordings
       --healthcheck-file-path /tmp/health.txt
@@ -603,7 +603,7 @@ services:
   metrics-consumer:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-metrics --consumer-group metrics-consumer --healthcheck-file-path
       /tmp/health.txt
@@ -661,7 +661,7 @@ services:
   monitors-clock-tasks:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer monitors-clock-tasks --consumer-group monitors-clock-tasks
       --healthcheck-file-path /tmp/health.txt
@@ -719,7 +719,7 @@ services:
   monitors-clock-tick:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer monitors-clock-tick --consumer-group monitors-clock-tick
       --healthcheck-file-path /tmp/health.txt
@@ -827,7 +827,7 @@ services:
   post-process-forwarder-errors:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer --no-strict-offset-reset post-process-forwarder-errors --consumer-group
       post-process-forwarder --synchronize-commit-log-topic=snuba-commit-log --synchronize-commit-group=snuba-consumers
@@ -884,7 +884,7 @@ services:
   post-process-forwarder-issue-platform:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer --no-strict-offset-reset post-process-forwarder-issue-platform
       --consumer-group post-process-forwarder --synchronize-commit-log-topic=snuba-generic-events-commit-log
@@ -943,7 +943,7 @@ services:
   post-process-forwarder-transactions:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer --no-strict-offset-reset post-process-forwarder-transactions
       --consumer-group post-process-forwarder --synchronize-commit-log-topic=snuba-transactions-commit-log
@@ -1020,7 +1020,7 @@ services:
   process-segments:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer --no-strict-offset-reset process-segments --consumer-group
       process-segments --healthcheck-file-path /tmp/health.txt
@@ -1078,7 +1078,7 @@ services:
   process-spans:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer --no-strict-offset-reset process-spans --consumer-group
       process-spans --healthcheck-file-path /tmp/health.txt
@@ -2077,7 +2077,7 @@ services:
   subscription-consumer-eap-items:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer subscription-results-eap-items --consumer-group subscription-results-eap-items
       --healthcheck-file-path /tmp/health.txt
@@ -2135,7 +2135,7 @@ services:
   subscription-consumer-events:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer events-subscription-results --consumer-group query-subscription-consumer
       --healthcheck-file-path /tmp/health.txt
@@ -2191,7 +2191,7 @@ services:
   subscription-consumer-generic-metrics:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer generic-metrics-subscription-results --consumer-group query-subscription-consumer
       --healthcheck-file-path /tmp/health.txt
@@ -2249,7 +2249,7 @@ services:
   subscription-consumer-metrics:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer metrics-subscription-results --consumer-group query-subscription-consumer
       --healthcheck-file-path /tmp/health.txt
@@ -2307,7 +2307,7 @@ services:
   subscription-consumer-transactions:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer transactions-subscription-results --consumer-group query-subscription-consumer
       --healthcheck-file-path /tmp/health.txt
@@ -2413,7 +2413,7 @@ services:
   taskscheduler:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run taskworker-scheduler
     depends_on:
@@ -2460,7 +2460,7 @@ services:
   taskworker:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run taskworker --concurrency=4 --rpc-host=taskbroker:50051 --health-check-file-path=/tmp/health.txt
     depends_on:
@@ -2515,7 +2515,7 @@ services:
   transactions-consumer:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer ingest-transactions --consumer-group ingest-consumer --healthcheck-file-path
       /tmp/health.txt
@@ -2590,7 +2590,7 @@ services:
   uptime-results:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command: run consumer uptime-results --consumer-group uptime-results --healthcheck-file-path
       /tmp/health.txt
@@ -2693,7 +2693,7 @@ services:
   web:
     build:
       args:
-      - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
       context: ./sentry
     command:
     - run
@@ -2801,7 +2801,7 @@ x-restart-policy:
 x-sentry-defaults:
   build:
     args:
-    - SENTRY_IMAGE
+        SENTRY_IMAGE: ghcr.io/getsentry/sentry:nightly
     context: ./sentry
   command:
   - run
