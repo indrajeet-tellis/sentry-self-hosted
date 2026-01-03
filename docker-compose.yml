@@ -8,13 +8,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -64,13 +64,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -155,13 +155,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -211,13 +211,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -269,13 +269,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -327,13 +327,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -385,13 +385,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -443,13 +443,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -501,13 +501,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -609,13 +609,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -667,13 +667,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -725,13 +725,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -777,10 +777,10 @@ services:
   nginx:
     depends_on:
       relay:
-        condition: service_healthy
+        condition: service_started
         restart: true
       web:
-        condition: service_healthy
+        condition: service_started
         restart: true
     healthcheck:
       interval: 60s
@@ -805,7 +805,7 @@ services:
   pgbouncer:
     depends_on:
       postgres:
-        condition: service_healthy
+        condition: service_started
     environment:
       ADMIN_USERS: postgres,sentry
       AUTH_TYPE: trust
@@ -834,13 +834,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -891,13 +891,13 @@ services:
       --synchronize-commit-group generic_events_group --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -950,13 +950,13 @@ services:
       --synchronize-commit-group transactions_group --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -1026,13 +1026,13 @@ services:
       process-segments --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -1084,13 +1084,13 @@ services:
       process-spans --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -1158,11 +1158,11 @@ services:
   relay:
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       web:
-        condition: service_healthy
+        condition: service_started
     environment:
       RELAY_STATSD_ADDR: ${STATSD_ADDR:-127.0.0.1:8125}
     healthcheck:
@@ -1216,13 +1216,13 @@ services:
     command: '"0 0 * * * gosu sentry sentry cleanup --days 90"'
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -1266,11 +1266,11 @@ services:
   snuba-api:
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1299,11 +1299,11 @@ services:
       /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1330,11 +1330,11 @@ services:
       --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1360,11 +1360,11 @@ services:
       750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1392,11 +1392,11 @@ services:
       750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1424,11 +1424,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1456,11 +1456,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1488,11 +1488,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1518,11 +1518,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1550,11 +1550,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1582,11 +1582,11 @@ services:
       --raw-events-topic outcomes-billing --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1612,11 +1612,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1642,11 +1642,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1674,11 +1674,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1705,11 +1705,11 @@ services:
       --max-batch-time-ms 1000 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1735,11 +1735,11 @@ services:
     command: replacer --storage errors --auto-offset-reset=latest --no-strict-offset-reset
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1756,11 +1756,11 @@ services:
       --max-batch-time-ms 750 --no-strict-offset-reset --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1789,11 +1789,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1820,11 +1820,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1851,11 +1851,11 @@ services:
       --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1884,11 +1884,11 @@ services:
       --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1917,11 +1917,11 @@ services:
       --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1950,11 +1950,11 @@ services:
       --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -1983,11 +1983,11 @@ services:
       --schedule-ttl=60 --stale-threshold-seconds=900 --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -2016,11 +2016,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -2048,11 +2048,11 @@ services:
       --health-check-file /tmp/health.txt
     depends_on:
       clickhouse:
-        condition: service_healthy
+        condition: service_started
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       CLICKHOUSE_HOST: clickhouse
       DEFAULT_BROKERS: kafka:9092
@@ -2083,13 +2083,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2141,13 +2141,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2197,13 +2197,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2255,13 +2255,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2313,13 +2313,13 @@ services:
       --healthcheck-file-path /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2400,7 +2400,7 @@ services:
   taskbroker:
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
     environment:
       TASKBROKER_DB_PATH: /opt/sqlite/taskbroker-activations.sqlite
       TASKBROKER_KAFKA_CLUSTER: kafka:9092
@@ -2418,13 +2418,13 @@ services:
     command: run taskworker-scheduler
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2465,13 +2465,13 @@ services:
     command: run taskworker --concurrency=4 --rpc-host=taskbroker:50051 --health-check-file-path=/tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2521,13 +2521,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2574,9 +2574,9 @@ services:
     command: run
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       UPTIME_CHECKER_ALLOW_INTERNAL_IPS: 'false'
       UPTIME_CHECKER_FAILURE_RETRIES: '1'
@@ -2596,13 +2596,13 @@ services:
       /tmp/health.txt
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2648,7 +2648,7 @@ services:
   vroom:
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
     environment:
       AWS_ACCESS_KEY: sentry
       AWS_SECRET_KEY: sentry
@@ -2700,13 +2700,13 @@ services:
     - web
     depends_on:
       kafka:
-        condition: service_healthy
+        condition: service_started
       memcached:
         condition: service_started
       pgbouncer:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
       seaweedfs:
         condition: service_started
       smtp:
@@ -2774,7 +2774,7 @@ volumes:
 x-depends_on-default:
   condition: service_started
 x-depends_on-healthy:
-  condition: service_healthy
+  condition: service_started
 x-file-healthcheck:
   interval: 60s
   retries: 3
@@ -2802,13 +2802,13 @@ x-sentry-defaults:
   - web
   depends_on:
     kafka:
-      condition: service_healthy
+      condition: service_started
     memcached:
       condition: service_started
     pgbouncer:
-      condition: service_healthy
+      condition: service_started
     redis:
-      condition: service_healthy
+      condition: service_started
     seaweedfs:
       condition: service_started
     smtp:
@@ -2844,11 +2844,11 @@ x-sentry-defaults:
 x-snuba-defaults:
   depends_on:
     clickhouse:
-      condition: service_healthy
+      condition: service_started
     kafka:
-      condition: service_healthy
+      condition: service_started
     redis:
-      condition: service_healthy
+      condition: service_started
   environment:
     CLICKHOUSE_HOST: clickhouse
     DEFAULT_BROKERS: kafka:9092
