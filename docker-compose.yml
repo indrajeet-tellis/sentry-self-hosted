@@ -793,6 +793,9 @@ services:
       timeout: 1m30s
     image: nginx:1.29.1-alpine
     expose:
+    networks:
+      - default
+      - dokploy-network
     - "80"
     restart: unless-stopped
     volumes:
@@ -2860,3 +2863,7 @@ x-snuba-defaults:
     UWSGI_MAX_REQUESTS: '10000'
   image: ghcr.io/getsentry/snuba:nightly
   restart: unless-stopped
+networks:
+  default:
+  dokploy-network:
+    external: true
